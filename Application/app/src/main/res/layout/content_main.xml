@@ -27,6 +27,7 @@
         android:text="@string/calc"
         android:layout_below="@+id/nine"
         android:layout_toRightOf="@+id/nine"
+        android:onClick="calcOnClick"
         android:layout_toEndOf="@+id/nine" />
 
     <CheckBox
@@ -57,6 +58,7 @@
         android:layout_marginTop="29dp"
         android:layout_toLeftOf="@+id/calc"
         android:layout_toStartOf="@+id/calc"
+        android:onClick="calcButtonOnClick"
         android:text="@string/plus" />
 
     <Button
@@ -66,6 +68,7 @@
         android:layout_alignBottom="@+id/plus"
         android:layout_toEndOf="@+id/plus"
         android:layout_toRightOf="@+id/plus"
+        android:onClick="calcButtonOnClick"
         android:text="@string/minus" />
 
     <Button
@@ -75,6 +78,7 @@
         android:layout_alignBottom="@+id/minus"
         android:layout_toEndOf="@+id/minus"
         android:layout_toRightOf="@+id/minus"
+        android:onClick="calcButtonOnClick"
         android:text="@string/divide" />
 
     <Button
@@ -84,6 +88,7 @@
         android:layout_alignTop="@+id/divide"
         android:layout_toEndOf="@+id/divide"
         android:layout_toRightOf="@+id/divide"
+        android:onClick="calcButtonOnClick"
         android:text="@string/multiply" />
 
     <Button
@@ -93,11 +98,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
+        android:onClick="calcButtonOnClick"
         android:text="@string/one" />
 
     <Button
         android:id="@+id/two"
         style="?android:attr/buttonStyleSmall"
+        android:onClick="calcButtonOnClick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/six"
@@ -108,6 +115,7 @@
 
     <Button
         android:id="@+id/three"
+        android:onClick="calcButtonOnClick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/seven"
@@ -118,6 +126,7 @@
     <Button
         android:id="@+id/four"
         android:layout_width="wrap_content"
+        android:onClick="calcButtonOnClick"
         android:layout_height="wrap_content"
         android:layout_above="@+id/seven"
         android:layout_toEndOf="@+id/divide"
@@ -129,6 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/four"
+        android:onClick="calcButtonOnClick"
         android:layout_toEndOf="@+id/seven"
         android:layout_toRightOf="@+id/seven"
         android:text="@string/eight" />
@@ -138,6 +148,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/six"
+        android:onClick="calcButtonOnClick"
         android:layout_toEndOf="@+id/six"
         android:layout_toRightOf="@+id/six"
         android:text="@string/seven" />
@@ -147,6 +158,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/one"
+        android:onClick="calcButtonOnClick"
         android:layout_toEndOf="@+id/five"
         android:layout_toRightOf="@+id/five"
         android:text="@string/six" />
@@ -155,6 +167,7 @@
         android:id="@+id/five"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="calcButtonOnClick"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/one"
@@ -165,6 +178,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:onClick="calcButtonOnClick"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/six"
         android:text="@string/nine" />
@@ -173,6 +187,7 @@
         android:id="@+id/zero"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="calcButtonOnClick"
         android:layout_alignLeft="@+id/six"
         android:layout_alignStart="@+id/six"
         android:layout_alignTop="@+id/nine"
@@ -186,6 +201,8 @@
         android:layout_alignLeft="@+id/seven"
         android:layout_alignStart="@+id/seven"
         android:layout_marginLeft="2dp"
+
+        android:onClick="naHuiOnClick"
         android:text="@string/probel" />
 
     <TextView

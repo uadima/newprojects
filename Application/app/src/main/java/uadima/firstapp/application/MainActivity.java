@@ -1,26 +1,24 @@
 package uadima.firstapp.application;
 
 import android.net.Uri;
-import android.util.Log;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import java.lang.reflect.Array;
-import java.util.StringTokenizer;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private static final String TAG = MainActivity.class.getSimpleName();
     private GoogleApiClient client;
+    private EditText text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,225 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-        final EditText text = (EditText) findViewById(R.id.num);
-        Button plus = (Button) findViewById(R.id.plus);
-        Button minus = (Button) findViewById(R.id.minus);
-        Button divide = (Button) findViewById(R.id.divide);
-        Button multiply = (Button) findViewById(R.id.multiply);
-        Button one = (Button) findViewById(R.id.one);
-        Button two = (Button) findViewById(R.id.two);
-        Button three = (Button) findViewById(R.id.three);
-        Button four = (Button) findViewById(R.id.four);
-        Button five = (Button) findViewById(R.id.five);
-        Button six = (Button) findViewById(R.id.six);
-        Button seven = (Button) findViewById(R.id.seven);
-        Button eight = (Button) findViewById(R.id.eight);
-        Button nine = (Button) findViewById(R.id.nine);
-        Button probel = (Button) findViewById(R.id.probel);
-        Button zero = (Button) findViewById(R.id.zero);
-        Button calc = (Button) findViewById(R.id.calc);
-        final CheckBox check = (CheckBox) findViewById(R.id.check);
-        final TextView testone = (TextView) findViewById(R.id.testone);
-
-
-        calc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String str = text.getText().toString();
-                String[] res1 = new String[20];
-                String[] action = new String[20];
-                double sum = 0;
-                int i=0;
-                int j=0;
-                for (Character c : str.toCharArray()) {
-                    if (i+1==str.length()){
-                        res1[j]=str.substring(1);
-                        Log.d(TAG, j+1+"oe "+" последнее значение = "+res1[j]);
-                    }
-                    if (c.equals('+') || c.equals('-') || c.equals('/') || c.equals('*')) {
-                        if (c.equals('+')) { action[j]="plus"; }
-                        if (c.equals('-')) { action[j]="minus"; }
-                        if (c.equals('/')) { action[j]="divide"; }
-                        if (c.equals('*')) { action[j]="multiply"; }
-                        if (j==0 ) {res1[j] = str.substring(0, i);} //в случае когдамы первый раз входим в if делаем сдвиг на 1 единицу влево, по скльку цифре не предшествует арифм знак
-                        if (j>0 ) {res1[j] = str.substring(1, i);}
-                        str=str.substring(i);
-                        Log.d(TAG, j+1+" значение = "+res1[j]);
-                        Log.d(TAG, action[j]+" действие");
-                        j++;
-                        i=0; //длина пройденной строки,обнуляется в случае нахождения арифм операции
-                        }
-                    i++;
-                    }
-
-
-                    for (int f = 0; f <= j; f++) {
-                        for (int x=0; x<=j; x++) {
-                        if (action[f] == "divide") {
-                            Log.d(TAG, sum  + " делю "+res1[f]+"на"+res1[f+1]);
-                            res1[f] = Integer.toString(Integer.parseInt(res1[f]) / Integer.parseInt(res1[f + 1]));
-                            Log.d(TAG, sum  + " получаю "+res1[f]);
-                            for (int t = f; t <= j; t++) {
-                                if (t == j) {
-                                    res1[t + 1] = "";
-                                    action[t] = "";
-                                } else {
-                                    res1[t + 1] = res1[t + 2];
-                                    action[t] = action[t + 1];
-                                }
-                            }
-                        }
-                        if (action[f] == "multiply") {
-                            res1[f] = Integer.toString(Integer.parseInt(res1[f]) * Integer.parseInt(res1[f + 1]));
-                            for (int t = f; t <= j; t++) {
-                                if (t == j) {
-                                    res1[t + 1] = "";
-                                    action[t] = "";
-                                } else {
-                                    res1[t + 1] = res1[t + 2];
-                                    action[t] = action[t + 1];
-                                }
-                            }
-                        }
-                    }
-                    }
-                    for (int f=0; f<=j; f++) {
-                    if (action[f]=="plus"){
-                        if (f==0) {sum=Integer.parseInt(res1[f])+Integer.parseInt(res1[f+1]);}
-                        if (f>0) {sum=sum+Integer.parseInt(res1[f+1]);}
-                    }
-                    if (action[f]=="minus"){
-                        if (f==0) {sum=Integer.parseInt(res1[f])-Integer.parseInt(res1[f+1]);}
-                        if (f>0) {sum=sum-Integer.parseInt(res1[f+1]);}
-                    }
-                        if (f==j  && sum==0)
-                        {
-                            sum=Integer.parseInt(res1[0]);
-                        }
-                    }
-                   Log.d(TAG, sum  + " результат ");
-                }
-             /**   for (int i=0; i<=action.length; i++){
-                        if (action[i]=="plus"){
-
-
-
-                }*/
-
-
-
-
-        });
-
-
-        plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText(text.getText().toString() + "+");
-            }
-        });
-
-
-        minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText(text.getText().toString() + "-");
-            }
-        });
-
-        divide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText(text.getText().toString() + "/");
-            }
-        });
-
-        multiply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText(text.getText().toString() + "*");
-            }
-        });
-
-        one.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText(text.getText().toString() + "1");
-            }
-        });
-
-        two.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText(text.getText().toString() + "2");
-            }
-        });
-
-        three.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText(text.getText().toString() + "3");
-            }
-        });
-
-        four.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText(text.getText().toString() + "4");
-            }
-        });
-
-        five.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText(text.getText().toString() + "5");
-            }
-        });
-
-        six.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText(text.getText().toString() + "6");
-            }
-        });
-
-        seven.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText(text.getText().toString() + "7");
-            }
-        });
-
-        eight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText(text.getText().toString() + "8");
-            }
-        });
-
-        nine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText(text.getText().toString() + "9");
-            }
-        });
-
-        zero.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText(text.getText().toString() + "0");
-            }
-        });
-
-        probel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText(null);
-            }
-        });
+        text = (EditText) findViewById(R.id.num);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -285,12 +66,10 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -332,5 +111,124 @@ public class MainActivity extends AppCompatActivity {
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
+    }
+
+    public void calcButtonOnClick(View view) {
+        text.setText(text.getText().toString() + ((Button) view).getText().toString());
+    }
+
+
+    public void naHuiOnClick(View view) {
+        text.setText(null);
+    }
+
+    public void calcOnClick(View view) {
+        calc();
+    }
+
+    private void calc() {
+        String str = text.getText().toString();
+        double sum = calc(str);
+        Log.d(TAG, sum + " результат ");
+    }
+
+    private double calc(String next) {
+        List<String> res1 = new ArrayList<>();
+        List<String> action = new ArrayList<>();
+        int i = 0;
+        int j = 0;
+        for (Character c : next.toCharArray()) {
+            if (i + 1 == next.length()) {
+                res1.add(next.substring(1));
+                Log.d(TAG, j + 1 + "oe " + " последнее значение = " + res1.get(res1.size() - 1));
+            }
+            if (c.equals('+') || c.equals('-') || c.equals('/') || c.equals('*')) {
+                if (c.equals('+')) {
+                    action.add("plus");
+                }
+                if (c.equals('-')) {
+                    action.add("minus");
+                }
+                if (c.equals('/')) {
+                    action.add("divide");
+                }
+                if (c.equals('*')) {
+                    action.add("multiply");
+                }
+                if (res1.size() == 0) {
+                    res1.add(next.substring(0, i));
+                } //в случае когдамы первый раз входим в if делаем сдвиг на 1 единицу влево, по скльку цифре не предшествует арифм знак
+                if (res1.size() > 0) {
+                    res1.add(next.substring(1, i));
+                }
+                next = next.substring(i);
+                Log.d(TAG, j + 1 + " значение = " + res1.get(res1.size() - 1));
+                Log.d(TAG, action.get(action.size() - 1) + " действие");
+                j++;
+                i = 0; //длина пройденной строки,обнуляется в случае нахождения арифм операции
+            }
+            i++;
+        }
+        return phaseToo(res1, action, j);
+    }
+
+    private double phaseToo(List<String> res1, List<String> action, int j) {
+        double sum = 0;
+        for (int f = 0; f <= j; f++) {
+            for (int x = 0; x <= j; x++) {
+                if (action.get(f) == "divide") {
+                    Log.d(TAG, sum + " делю " + res1.get(f) + "на" + res1.get(f + 1));
+                    res1.set(f, Integer.toString(Integer.parseInt(res1.get(f)) / Integer.parseInt(res1.get(f + 1))));
+                    Log.d(TAG, sum + " получаю " + res1.get(f));
+                    for (int t = f; t <= j; t++) {
+                        if (t == j) {
+                            res1.set(t + 1, "");
+                            action.set(t, "");
+                        } else {
+                            res1.set(t + 1, res1.get(t + 2));
+                            action.set(t, action.get(t + 1));
+                        }
+                    }
+                }
+                if (action.get(f) == "multiply") {
+                    res1.set(f, Integer.toString(Integer.parseInt(res1.get(f)) * Integer.parseInt(res1.get(f + 1))));
+                    for (int t = f; t <= j; t++) {
+                        if (t == j) {
+                            res1.set(t + 1, "");
+                            action.set(t, "");
+                        } else {
+                            res1.set(t + 1, res1.get(t + 2));
+                            action.set(t, action.get(t + 1));
+                        }
+                    }
+                }
+            }
+        }
+        return phaseThree(res1, action, j, sum);
+    }
+
+    private double phaseThree(List<String> res1, List<String> action, int j, double sum) {
+        for (int f = 0; f <= j; f++) {
+            if (action.get(f) == "plus") {
+                if (f == 0) {
+                    sum = Integer.parseInt(res1.get(f)) + Integer.parseInt(res1.get(f + 1));
+                }
+                if (f > 0) {
+                    sum = sum + Integer.parseInt(res1.get(f + 1));
+                }
+            }
+            if (action.get(f) == "minus") {
+                if (f == 0) {
+                    sum = Integer.parseInt(res1.get(f)) - Integer.parseInt(res1.get(f + 1));
+                }
+                if (f > 0) {
+                    sum = sum - Integer.parseInt(res1.get(f + 1));
+                }
+            }
+            if (f == j && sum == 0) {
+                sum = Integer.parseInt(res1.get(0));
+            }
+        }
+        return sum;
     }
 }
