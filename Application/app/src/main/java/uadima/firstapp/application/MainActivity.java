@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
         temp = -1;
         int sum = phasebreacket(str);
         Log.d(TAG, sum + " результат ");
+        text.setText(str+"="+sum);
     }
 
     private int phasebreacket(String next) {
