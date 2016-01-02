@@ -119,8 +119,7 @@ public class MainActivity extends AppCompatActivity {
     private final static Character multiply = '*';
     private final static Character openbreacket = '(';
     private final static Character closebreacket = ')';
-    private int temp = 0;
-    private int temp2 = 0;
+    private int temp = -1;
     String nextreserved = new String();
 
 
@@ -144,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void calc() {
         String str = text.getText().toString();
-        temp = 0;
+        temp = -1;
         int sum = phasebreacket(str);
         Log.d(TAG, sum + " результат ");
     }
@@ -152,32 +151,39 @@ public class MainActivity extends AppCompatActivity {
     private int phasebreacket(String next) {
         Log.d(TAG, "получил на обработку строку " + next);
         boolean flag = false;
-        if (temp != 0 && nextreserved.length() < 2) {
+        if ((temp != -1 && nextreserved.length() < 2)) {
             Log.d(TAG, "длина оставшейся строки минимальна отдаю на выход ");
             return (Integer.parseInt(next));
         }
-        if (temp != 0) {
+        if (temp != -1) {
             String beforeSubStr = nextreserved.substring(0, temp);
             String afterSubStr = nextreserved.substring(temp);
-            next=beforeSubStr+next+afterSubStr;
-            nextreserved=""; // дабы не зациклится удалим склееную строку
-            beforeSubStr=""; // дабы не зациклится удалим склееную строку
-            afterSubStr=""; // дабы не зациклится удалим склееную строку
+            next = beforeSubStr + next + afterSubStr;
+            Log.d(TAG, "Склеиваю это дерьмо - получаю уравнение вида: " + next);
+            nextreserved = ""; // дабы не зациклится удалим склееную строку
         }
-        if (temp == 0) {
-       //     Log.d(TAG, "получил на обработку строку " + next + " -1ая итерация");
-        }
+        if (next.indexOf('+') == -1 && next.indexOf('-') == -1 && next.indexOf('/') == -1 && next.indexOf('*') == -1 && next.indexOf(')') == -1 && next.indexOf('(') == -1 && nextreserved.indexOf('+') == -1 && nextreserved.indexOf('-') == -1 && nextreserved.indexOf('/') == -1 && nextreserved.indexOf('*') == -1 && nextreserved.indexOf(')') == -1 && nextreserved.indexOf('(') == -1)
+            return (Integer.parseInt(next));
         for (int i = 0; i < next.toCharArray().length; i++) {
+            if (closebreacket.equals(next.toCharArray()[i])) {
+                Log.d(TAG, " Схуяли ты закрываеш ещё не открытую скобку!? 2 ка в аттестат неглядя ");
+                return (0);
+            }
             if (openbreacket.equals(next.toCharArray()[i])) {
                 temp = i;
                 for (int x = i; x < next.toCharArray().length; x++) {
+                    if (openbreacket.equals(next.toCharArray()[x]))
+                        temp = x; // в случае если находим ещё 1ну открывающуюся скобку, забываем прошлую
                     if (closebreacket.equals(next.toCharArray()[x])) {
-                        temp2=x;
                         nextreserved = next.substring(0, temp) + next.substring(x + 1);
                         Log.d(TAG, "оставляю в памяти строку " + nextreserved);
                         next = next.substring(temp + 1, x);
                         flag = true;
                         break;
+                    }
+                    if (x + 1 == next.toCharArray().length) {
+                        Log.d(TAG, "Закрой скобку, мудак! ");
+                        return (0);
                     }
                 }
             }
@@ -192,12 +198,13 @@ public class MainActivity extends AppCompatActivity {
     private int calc(String next) {
         List<String> res1 = new ArrayList<>();
         List<String> action = new ArrayList<>();
-        for (int i = 0; i < next.toCharArray().length; i++) {
-            if (i + 1 == next.length()) {
-                res1.add(next.substring(1));
-                Log.d(TAG, action.size() + 1 + "oe " + " последнее значение = " + res1.get(res1.size() - 1));
+        for (int i = 0; i <= next.toCharArray().length; i++) {
+            if (i == next.length()) {
+                res1.add(next);
+                Log.d(TAG, res1.size() + "oe " + " последнее значение = " + res1.get(res1.size() - 1));
+                break;
             }
-            if (plus.equals(next.toCharArray()[i]) || minus.equals(next.toCharArray()[i]) || divide.equals(next.toCharArray()[i]) || multiply.equals(next.toCharArray()[i]) || openbreacket.equals(next.toCharArray()[i]) || closebreacket.equals(next.toCharArray()[i])) {
+            if (plus.equals(next.toCharArray()[i]) || minus.equals(next.toCharArray()[i]) || divide.equals(next.toCharArray()[i]) || multiply.equals(next.toCharArray()[i])) {
                 if (plus.equals(next.toCharArray()[i])) {
                     action.add("plus");
                 }
@@ -210,14 +217,9 @@ public class MainActivity extends AppCompatActivity {
                 if (multiply.equals(next.toCharArray()[i])) {
                     action.add("multiply");
                 }
-                if (action.size() == 1) {
-                    res1.add(next.substring(0, i));
-                } //в случае когдамы первый раз входим в if делаем сдвиг на 1 единицу влево, по скльку цифре не предшествует арифм знак
-                if (action.size() > 1) {
-                    res1.add(next.substring(1, i));
-                }
-                next = next.substring(i);
-                Log.d(TAG, action.size() + " значение = " + res1.get(res1.size() - 1));
+                res1.add(next.substring(0, i));
+                next = next.substring(i + 1);
+                Log.d(TAG, res1.size() + " значение = " + res1.get(res1.size() - 1));
                 Log.d(TAG, action.get(action.size() - 1) + " действие");
                 i = 0; //длина пройденной строки,обнуляется в случае нахождения арифм операции
             }
@@ -225,29 +227,8 @@ public class MainActivity extends AppCompatActivity {
         return phasetwo(res1, action);
     }
 
-
-    /**
-     * private double phasetest(List<String> res1, List<String> action)
-     * {
-     * for (int x = 0; x <= action.size()-1; x++)
-     * {
-     * if (x==action.size()-1)
-     * {
-     * Log.d(TAG, x+1 + " значение = " + res1.get(x) );
-     * Log.d(TAG, " действие " + action.get(x) );
-     * Log.d(TAG, x+2 + " последнее значение = " + res1.get(x+1) );
-     * }else {
-     * Log.d(TAG, x+1 + " значение = " + res1.get(x) );
-     * Log.d(TAG, " действие " + action.get(x) );
-     * }
-     * }
-     * return phaseToo(res1, action);
-     * }
-     */
-
-
     private int phasetwo(List<String> res1, List<String> action) {
-        for (int f = 0; f <= action.size() - 1; f++) {
+        for (int f = 0; f < action.size(); f++) {
             for (int x = 0; x <= action.size() - 1; x++) {
                 if (action.get(f) == "divide") {
                     Log.d(TAG, " делю " + res1.get(f) + "на" + res1.get(f + 1));
@@ -282,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int phaseThree(List<String> res1, List<String> action) {
         int sum = 0;
-        for (int f = 0; f <= action.size() - 1; f++) {
+        for (int f = 0; f < action.size(); f++) {
             if (action.get(f) == "plus") {
                 if (f == 0) {
                     sum = Integer.parseInt(res1.get(f)) + Integer.parseInt(res1.get(f + 1));
@@ -299,9 +280,9 @@ public class MainActivity extends AppCompatActivity {
                     sum = sum - Integer.parseInt(res1.get(f + 1));
                 }
             }
-            if (f == action.size() - 1 && sum == 0) {
-                sum = Integer.parseInt(res1.get(0));
-            }
+        }
+        if (0 == sum) {
+            sum = Integer.parseInt(res1.get(0));
         }
         return phasebreacket(Integer.toString(sum));
     }
