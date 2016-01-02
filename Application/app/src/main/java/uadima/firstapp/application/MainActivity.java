@@ -123,13 +123,21 @@ public class MainActivity extends AppCompatActivity {
     String nextreserved = new String();
 
 
-    public void calcButtonOnClick(View view) {
-        text.setText(text.getText().toString() + ((Button) view).getText().toString());
+    public void calcButtonOnClick(View view) { //проверка на дурака, не допускается ввод двух арифм знаков подрят к примеру +-,++. Так же запрещено начинать строку с арифм действия.
+        if (plus.equals(((Button) view).getText().toString().toCharArray()[0]) || minus.equals(((Button) view).getText().toString().toCharArray()[0]) || multiply.equals(((Button) view).getText().toString().toCharArray()[0]) || divide.equals(((Button) view).getText().toString().toCharArray()[0]))
+        {
+            if (text.getText().length() != 0 && !plus.equals(text.getText().toString().toCharArray()[text.getText().length()-1]) && !minus.equals(text.getText().toString().toCharArray()[text.getText().length()-1]) && !multiply.equals(text.getText().toString().toCharArray()[text.getText().length()-1]) && !divide.equals(text.getText().toString().toCharArray()[text.getText().length()-1]))
+            {
+              text.setText(text.getText().toString() + ((Button) view).getText().toString());
+            }
+            else text.setText(""); text.setHint("Как то текст по дыбильному написан!");
+        }
+        else text.setText(text.getText().toString() + ((Button) view).getText().toString());
     }
 
 
     public void naHuiOnClick(View view) {
-        text.setText(null);
+        text.setText(null); text.setHint("Введи сюда выражение, мать его");
     }
 
     public void calcOnClick(View view) {
@@ -146,7 +154,8 @@ public class MainActivity extends AppCompatActivity {
         temp = -1;
         int sum = phasebreacket(str);
         Log.d(TAG, sum + " результат ");
-        text.setText(str+"="+sum);
+        text.setText("");
+        text.setHint(str + "=" + sum);
     }
 
     private int phasebreacket(String next) {
