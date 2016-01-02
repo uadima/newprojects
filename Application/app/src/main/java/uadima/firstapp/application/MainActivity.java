@@ -1,5 +1,6 @@
 package uadima.firstapp.application;
 
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -7,11 +8,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -124,15 +129,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void calcButtonOnClick(View view) { //проверка на дурака, не допускается ввод двух арифм знаков подрят к примеру +-,++. Так же запрещено начинать строку с арифм действия.
-        if (plus.equals(((Button) view).getText().toString().toCharArray()[0]) || minus.equals(((Button) view).getText().toString().toCharArray()[0]) || multiply.equals(((Button) view).getText().toString().toCharArray()[0]) || divide.equals(((Button) view).getText().toString().toCharArray()[0]))
-        {
-            if (text.getText().length() != 0 && !plus.equals(text.getText().toString().toCharArray()[text.getText().length()-1]) && !minus.equals(text.getText().toString().toCharArray()[text.getText().length()-1]) && !multiply.equals(text.getText().toString().toCharArray()[text.getText().length()-1]) && !divide.equals(text.getText().toString().toCharArray()[text.getText().length()-1]))
-            {
-              text.setText(text.getText().toString() + ((Button) view).getText().toString());
-            }
-            else text.setText(""); text.setHint("Как то текст по дыбильному написан!");
+        if (plus.equals(((Button) view).getText().toString().toCharArray()[0]) || minus.equals(((Button) view).getText().toString().toCharArray()[0]) || multiply.equals(((Button) view).getText().toString().toCharArray()[0]) || divide.equals(((Button) view).getText().toString().toCharArray()[0])) {
+            if (text.getText().length() != 0 && !plus.equals(text.getText().toString().toCharArray()[text.getText().length() - 1]) && !minus.equals(text.getText().toString().toCharArray()[text.getText().length() - 1]) && !multiply.equals(text.getText().toString().toCharArray()[text.getText().length() - 1]) && !divide.equals(text.getText().toString().toCharArray()[text.getText().length() - 1])) {
+                text.setText(text.getText().toString() + ((Button) view).getText().toString());
+            } else  {text.setText("");
+            text.setHint("Как то текст по дыбильному написан!");
+            Toast dobkin = Toast.makeText(MainActivity.this, "Как то текст по дыбильному написан!", Toast.LENGTH_LONG);
+            dobkin.setGravity(Gravity.BOTTOM, 0 ,0);
+            LinearLayout dobkinImage=(LinearLayout) dobkin.getView();
+            ImageView dobkinView = new ImageView(MainActivity.this);
+            dobkinView.setImageResource(R.drawable.dobkin);
+            dobkinImage.addView(dobkinView,0);
+            dobkin.show();}
+        } else {
+            text.setText(text.getText().toString() + ((Button) view).getText().toString());
         }
-        else text.setText(text.getText().toString() + ((Button) view).getText().toString());
     }
 
 
@@ -176,6 +187,15 @@ public class MainActivity extends AppCompatActivity {
             return (Integer.parseInt(next));
         for (int i = 0; i < next.toCharArray().length; i++) {
             if (closebreacket.equals(next.toCharArray()[i])) {
+                text.setText("");
+                text.setHint("Скобки Карл!Скобки!!!");
+                Toast dobkin = Toast.makeText(MainActivity.this, "Карл скобок должно быть две! ДВЕ КАРЛ!", Toast.LENGTH_LONG);
+                dobkin.setGravity(Gravity.BOTTOM, 0 ,0);
+                LinearLayout dobkinImage=(LinearLayout) dobkin.getView();
+                ImageView dobkinView = new ImageView(MainActivity.this);
+                dobkinView.setImageResource(R.drawable.carl);
+                dobkinImage.addView(dobkinView,0);
+                dobkin.show();
                 Log.d(TAG, " Схуяли ты закрываеш ещё не открытую скобку!? 2 ка в аттестат неглядя ");
                 return (0);
             }
@@ -192,6 +212,15 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     if (x + 1 == next.toCharArray().length) {
+                        text.setText("");
+                        text.setHint("Скобки Карл!Скобки!!!");
+                        Toast dobkin = Toast.makeText(MainActivity.this, "Карл скобок должно быть две! ДВЕ КАРЛ!", Toast.LENGTH_LONG);
+                        dobkin.setGravity(Gravity.BOTTOM, 0 ,0);
+                        LinearLayout dobkinImage=(LinearLayout) dobkin.getView();
+                        ImageView dobkinView = new ImageView(MainActivity.this);
+                        dobkinView.setImageResource(R.drawable.carl);
+                        dobkinImage.addView(dobkinView,0);
+                        dobkin.show();
                         Log.d(TAG, "Закрой скобку, мудак! ");
                         return (0);
                     }
